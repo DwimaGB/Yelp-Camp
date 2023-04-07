@@ -1,0 +1,8 @@
+<h1>Edit Campground</h1>
+
+<form action="/campgrounds/<%= campground.id %>?_method=PUT"  method="POST">
+    <%- include('./_form_fields.ejs') %>
+
+    <a href="/campgrounds/<%= campground.id %>">Cancel</a>
+    <button>Save</button>
+</form>
