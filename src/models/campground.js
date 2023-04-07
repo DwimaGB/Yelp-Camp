@@ -12,7 +12,7 @@ const CampgroundSchema = new Schema({
         type: String,        
     },
     location: {
-        type: String,s
+        type: String,
     }
 });
 
