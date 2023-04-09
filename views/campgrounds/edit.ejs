@@ -1,6 +1,6 @@
 <h1>Edit Campground</h1>
 
-<form action="/campgrounds/<%= campground.id %>?_method=PUT"  method="POST">
+<form action="/campgrounds/<%= campground.id %>?_method=PUT"  method="POST" class="needs-validation" novalidate>
     <%- include('./_form_fields.ejs') %>
 
     <div>

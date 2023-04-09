@@ -3,77 +3,60 @@ const express = require('express');
 const router = express.Router();
 
 const Campground = require('../models/campground');
+const handleAsync = require('../utils/handleAsync');
+const validateCampground = require('../middlewares/validateCampground');
 
-router.get('/', async(req, res)=>{
-    try{
-        const campgrounds = await Campground.find({});
-        res.render('campgrounds/index', {campgrounds});
-    }
-    catch(e){
-        console.log(e);
-    }
-})
+router.get('/', handleAsync(async (req, res, next) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds });
 
-router.get('/new', (req, res)=>{
-    res.render('campgrounds/new', {campground: new Campground()});
-})
+}));
 
-
-router.get('/:id', async(req, res)=>{
-    try{    
-        const campground = await Campground.findById(req.params.id);
-
-        res.render('campgrounds/show', {campground});
-    }
-    catch(e){
-        console.log(e);
-    }
+router.get('/new', (req, res) => {
+    res.render('campgrounds/new', { campground: new Campground() });
 })
 
 
+router.get('/:id', handleAsync(async (req, res, next) => {
 
-router.get('/:id/edit', async(req, res)=>{
-    try{
-        const campground = await Campground.findById(req.params.id);
+    const campground = await Campground.findById(req.params.id);
 
-        res.render('campgrounds/edit', {campground});
-    }
-    catch(e){
+    res.render('campgrounds/show', { campground });
 
-    }
-})
+}))
 
-router.post('/', async(req, res)=>{
-    try{
-        const campground = new Campground(req.body.campground);
-        await campground.save();
 
-        res.redirect(`/campgrounds/${campground.id}`);
-    }
-    catch(e){
-        console.log(e)
-    }
-})
 
-router.put('/:id', async(req, res)=>{
-    try{
-        const campground = await Campground.findByIdAndUpdate(req.params.id, {...req.body.campground});
+router.get('/:id/edit', handleAsync(async (req, res, next) => {
 
-        res.redirect(`/campgrounds/${campground.id}`)
-    }
-    catch(e){
-        console.log(e);
-    }
-})
+    const campground = await Campground.findById(req.params.id);
 
-router.delete('/:id', async(req, res)=>{
-    try{
-        await Campground.findByIdAndDelete(req.params.id);
-        res.redirect('/campgrounds');
-    }
-    catch(e){
-        console.log(e);
-    }
-})
+    res.render('campgrounds/edit', { campground });
+
+}))
+
+router.post('/', validateCampground, handleAsync(async (req, res, next) => {
+
+    const campground = new Campground(req.body.campground);
+    await campground.save();
+
+    res.redirect(`/campgrounds/${campground.id}`);
+
+}))
+
+router.put('/:id', validateCampground, handleAsync(async (req, res, next) => {
+
+    const campground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground });
+
+    res.redirect(`/campgrounds/${campground.id}`)
+
+}))
+
+router.delete('/:id', handleAsync(async (req, res, next) => {
+
+    await Campground.findByIdAndDelete(req.params.id);
+    res.redirect('/campgrounds');
+
+}))
 
 module.exports = router;
