@@ -3,8 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 const Campground = require('../models/campground');
+const Review = require('../models/review');
 const handleAsync = require('../utils/handleAsync');
-const validateCampground = require('../middlewares/validateCampground');
+const {validateCampground, validateReview} = require('../middlewares/validateSchema');
+
+/* Campground */
 
 router.get('/', handleAsync(async (req, res, next) => {
     const campgrounds = await Campground.find({});
@@ -57,6 +60,21 @@ router.delete('/:id', handleAsync(async (req, res, next) => {
     await Campground.findByIdAndDelete(req.params.id);
     res.redirect('/campgrounds');
 
+}))
+
+/* Reviews */ 
+
+router.post('/:id/reviews', validateReview, handleAsync(async(req, res, next)=>{
+    const campground = await Campground.findById(req.params.id);
+
+    const review = new Review(req.body.review);
+    await review.save();
+
+    campground.reviews.push(review);
+    await campground.save();
+
+    res.redirect(`/campground/${campground.id}`);
+   
 }))
 
 module.exports = router;

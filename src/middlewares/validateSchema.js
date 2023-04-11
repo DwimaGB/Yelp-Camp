@@ -12,7 +12,27 @@ const validateCampground = (req, res, next)=>{
         }).required()
     })
 
-    const {error} = campgroundSchema.validate(req.body);
+    checkError(campgroundSchema, req, next);
+}
+
+const validateReview = (req, res, next)=>{
+    const reviewSchema = Joi.object({
+        review: Joi.object({
+            rating: Joi.number().required(),
+            body: Joi.string().required()
+        })
+    }).required()
+   
+    checkError(reviewSchema, req, next);
+   
+}
+module.exports = {validateCampground, validateReview};
+
+
+/*  */
+
+function checkError(schema, req, next){
+    const {error} = schema.validate(req.body);
     if(error){
         const msg = error.details.map(el=>el.message).join(', ');
         throw new ExpressError(msg, 400);
@@ -21,5 +41,3 @@ const validateCampground = (req, res, next)=>{
         next();
     }
 }
-
-module.exports = validateCampground;
