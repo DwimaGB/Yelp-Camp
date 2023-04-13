@@ -18,10 +18,10 @@ const validateCampground = (req, res, next)=>{
 const validateReview = (req, res, next)=>{
     const reviewSchema = Joi.object({
         review: Joi.object({
-            rating: Joi.number().required(),
+            rating: Joi.number().min(1).max(5).required(),
             body: Joi.string().required()
-        })
-    }).required()
+        }).required()
+    })
    
     checkError(reviewSchema, req, next);
    

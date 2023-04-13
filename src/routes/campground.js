@@ -22,12 +22,11 @@ router.get('/new', (req, res) => {
 
 router.get('/:id', handleAsync(async (req, res, next) => {
 
-    const campground = await Campground.findById(req.params.id);
+    const campground = await Campground.findById(req.params.id).populate('reviews').exec();
 
     res.render('campgrounds/show', { campground });
 
 }))
-
 
 
 router.get('/:id/edit', handleAsync(async (req, res, next) => {
@@ -73,8 +72,18 @@ router.post('/:id/reviews', validateReview, handleAsync(async(req, res, next)=>{
     campground.reviews.push(review);
     await campground.save();
 
-    res.redirect(`/campground/${campground.id}`);
+    res.redirect(`/campgrounds/${campground.id}`);
    
+}))
+
+router.delete('/:id/reviews/:reviewId', handleAsync(async(req, res, next)=>{
+    const {id, reviewId} = req.params;
+    await Campground.updateOne({_id: id}, {$pull: {"reviews": reviewId}});
+
+    await Review.findByIdAndDelete(reviewId, {new: true});
+
+    res.redirect(`/campgrounds/${id}`);
+
 }))
 
 module.exports = router;
