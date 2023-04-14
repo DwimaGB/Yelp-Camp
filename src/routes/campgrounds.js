@@ -3,11 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const Campground = require('../models/campground');
-const Review = require('../models/review');
 const handleAsync = require('../utils/handleAsync');
-const {validateCampground, validateReview} = require('../middlewares/validateSchema');
+const {validateCampground} = require('../middlewares/validateSchema');
 
-/* Campground */
 
 router.get('/', handleAsync(async (req, res, next) => {
     const campgrounds = await Campground.find({});
@@ -23,7 +21,10 @@ router.get('/new', (req, res) => {
 router.get('/:id', handleAsync(async (req, res, next) => {
 
     const campground = await Campground.findById(req.params.id).populate('reviews').exec();
-
+    if(!campground){
+        req.flash('error', 'Cannot find that campground');
+        return res.redirect('/campgrounds');
+    }
     res.render('campgrounds/show', { campground });
 
 }))
@@ -32,7 +33,10 @@ router.get('/:id', handleAsync(async (req, res, next) => {
 router.get('/:id/edit', handleAsync(async (req, res, next) => {
 
     const campground = await Campground.findById(req.params.id);
-
+    if(!campground){
+        req.flash('error', 'Cannot find that campground');
+        return res.redirect('/campgrounds');
+    }
     res.render('campgrounds/edit', { campground });
 
 }))
@@ -41,7 +45,7 @@ router.post('/', validateCampground, handleAsync(async (req, res, next) => {
 
     const campground = new Campground(req.body.campground);
     await campground.save();
-
+    req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground.id}`);
 
 }))
@@ -49,7 +53,7 @@ router.post('/', validateCampground, handleAsync(async (req, res, next) => {
 router.put('/:id', validateCampground, handleAsync(async (req, res, next) => {
 
     const campground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground });
-
+    req.flash('success', 'Successfully updated campground');
     res.redirect(`/campgrounds/${campground.id}`)
 
 }))
@@ -57,33 +61,13 @@ router.put('/:id', validateCampground, handleAsync(async (req, res, next) => {
 router.delete('/:id', handleAsync(async (req, res, next) => {
 
     await Campground.findByIdAndDelete(req.params.id);
+    req.flash('success', 'Successfully deleted campground');
     res.redirect('/campgrounds');
 
 }))
 
 /* Reviews */ 
 
-router.post('/:id/reviews', validateReview, handleAsync(async(req, res, next)=>{
-    const campground = await Campground.findById(req.params.id);
 
-    const review = new Review(req.body.review);
-    await review.save();
-
-    campground.reviews.push(review);
-    await campground.save();
-
-    res.redirect(`/campgrounds/${campground.id}`);
-   
-}))
-
-router.delete('/:id/reviews/:reviewId', handleAsync(async(req, res, next)=>{
-    const {id, reviewId} = req.params;
-    await Campground.updateOne({_id: id}, {$pull: {"reviews": reviewId}});
-
-    await Review.findByIdAndDelete(reviewId, {new: true});
-
-    res.redirect(`/campgrounds/${id}`);
-
-}))
 
 module.exports = router;
