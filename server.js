@@ -44,6 +44,7 @@ app.use(flash());
 
 app.use(flashMsg);
 
+app.use('/', require('./src/routes/users'));
 app.use('/campgrounds', require('./src/routes/campgrounds'));
 app.use('/campgrounds/:id/reviews', require('./src/routes/reviews'));
 

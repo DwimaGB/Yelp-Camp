@@ -45,7 +45,7 @@ seedDB().then(()=>mongoose.connection.close());
 
 
 function generateRandomImages(){
-    return axios.get(`https://api.unsplash.com/photos/random?count=50&collections=0PS93s3CcF4&client_id=${process.env.UNSPLASH_ACCESS_KEY}`);
+    return axios.get(`https://api.unsplash.com/photos/random?count=30&collections=0PS93s3CcF4&client_id=${process.env.UNSPLASH_ACCESS_KEY}`);
 }
 
 function sample(arr){
