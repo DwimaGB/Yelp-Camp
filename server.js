@@ -7,6 +7,7 @@ const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('./src/config/passportConfig');
 
 const ExpressError = require('./src/utils/ExpressError');
 const flashMsg = require('./src/middlewares/flash');
@@ -40,6 +41,11 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use(flash());
 
 app.use(flashMsg);

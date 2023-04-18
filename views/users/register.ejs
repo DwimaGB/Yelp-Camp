@@ -2,17 +2,9 @@
 
 <form action="/register" method="POST" class="needs-validation" novalidate>
     <section class="mb-3">
-        <label class="form-label" for="username">Username</label>
-        <input class="form-control" type="text" name="username" id="username" required>
-    </section>
-    <section class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input class="form-control" type="email" name="email" id="email" required>
     </section>
-    <section class="mb-3">
-        <label class="form-label" for="password">Password</label>
-        <input class="form-control" type="password" name="password" id="password" required>
-    </section>
-
+    <%- include('_form_fields') %>
     <button class="btn btn-success">Register</button>
 </form>

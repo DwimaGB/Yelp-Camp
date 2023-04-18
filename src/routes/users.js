@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/user');
-// const handleAsync = require('../utils/handleAsync');
+const passport = require('passport');
 
 router.route('/register')
     .get((req, res) => {
@@ -23,5 +23,14 @@ router.route('/register')
         }
     
 })
+
+router.route('/login')
+    .get((req, res)=>{
+        res.render('users/login');
+    })
+    .post(passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), (req, res)=>{
+        req.flash('success', 'Welcome back!')
+        res.redirect('/campgrounds');
+    })
 
 module.exports = router;
