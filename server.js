@@ -11,6 +11,7 @@ const passport = require('./src/config/passportConfig');
 
 const ExpressError = require('./src/utils/ExpressError');
 const flashMsg = require('./src/middlewares/flash');
+const currentUser = require('./src/middlewares/currentUser');
 
 const app = express();
 
@@ -45,10 +46,14 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use(flash());
-
 app.use(flashMsg);
+app.use(currentUser);
+
+app.use((req, res, next)=>{
+    console.log(req.session);
+    next();
+})
 
 app.use('/', require('./src/routes/users'));
 app.use('/campgrounds', require('./src/routes/campgrounds'));

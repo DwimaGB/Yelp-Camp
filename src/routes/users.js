@@ -13,24 +13,37 @@ router.route('/register')
             const { email, username, password } = req.body;
             const user = new User({ email, username, password });
             await user.save();
-
-            req.flash('success', 'Welcome to Yelp Camp!');
-            res.redirect('/campgrounds');
-        }   
-        catch(e){
+            req.logIn(user, (err) => {
+                if (err) return done(err);
+                req.flash('success', 'Welcome to Yelp Camp!');
+                res.redirect('/campgrounds');
+            })
+        }
+        catch (e) {
             req.flash('error', e.message);
             res.redirect('register');
         }
-    
-})
+
+    })
 
 router.route('/login')
-    .get((req, res)=>{
+    .get((req, res) => {
         res.render('users/login');
     })
-    .post(passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), (req, res)=>{
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+        const redirectUrl = req.session.returnTo || '/campgrounds';
+        delete req.session.returnTo;
         req.flash('success', 'Welcome back!')
-        res.redirect('/campgrounds');
+        res.redirect(`${redirectUrl}`);
     })
+
+
+router.get('/logout', (req, res) => {
+    req.logOut((err) => {
+        if (err) return next(err)
+        req.flash('success', 'Successfully logged out');
+        res.redirect('/campgrounds');
+    });
+})
 
 module.exports = router;

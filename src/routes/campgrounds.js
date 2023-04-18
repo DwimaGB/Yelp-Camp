@@ -5,6 +5,7 @@ const router = express.Router();
 const Campground = require('../models/campground');
 const handleAsync = require('../utils/handleAsync');
 const {validateCampground} = require('../middlewares/validateSchema');
+const isAuthenticated = require('../middlewares/isAuthenticate');
 
 
 router.get('/', handleAsync(async (req, res, next) => {
@@ -13,7 +14,7 @@ router.get('/', handleAsync(async (req, res, next) => {
 
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isAuthenticated, (req, res) => {
     res.render('campgrounds/new', { campground: new Campground() });
 })
 
@@ -30,7 +31,7 @@ router.get('/:id', handleAsync(async (req, res, next) => {
 }))
 
 
-router.get('/:id/edit', handleAsync(async (req, res, next) => {
+router.get('/:id/edit', isAuthenticated, handleAsync(async (req, res, next) => {
 
     const campground = await Campground.findById(req.params.id);
     if(!campground){
@@ -41,7 +42,7 @@ router.get('/:id/edit', handleAsync(async (req, res, next) => {
 
 }))
 
-router.post('/', validateCampground, handleAsync(async (req, res, next) => {
+router.post('/', isAuthenticated, validateCampground, handleAsync(async (req, res, next) => {
 
     const campground = new Campground(req.body.campground);
     await campground.save();
@@ -50,7 +51,7 @@ router.post('/', validateCampground, handleAsync(async (req, res, next) => {
 
 }))
 
-router.put('/:id', validateCampground, handleAsync(async (req, res, next) => {
+router.put('/:id', isAuthenticated, validateCampground, handleAsync(async (req, res, next) => {
 
     const campground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground });
     req.flash('success', 'Successfully updated campground');
@@ -58,7 +59,7 @@ router.put('/:id', validateCampground, handleAsync(async (req, res, next) => {
 
 }))
 
-router.delete('/:id', handleAsync(async (req, res, next) => {
+router.delete('/:id', isAuthenticated, handleAsync(async (req, res, next) => {
 
     await Campground.findByIdAndDelete(req.params.id);
     req.flash('success', 'Successfully deleted campground');
