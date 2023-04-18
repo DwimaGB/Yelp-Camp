@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const ExpressError = require('../utils/ExpressError');
 
-const validateCampground = (req, res, next)=>{
+module.exports.validateCampground = (req, res, next)=>{
     const campgroundSchema = Joi.object({
         campground: Joi.object({
             title: Joi.string().required(),
@@ -15,7 +15,7 @@ const validateCampground = (req, res, next)=>{
     checkError(campgroundSchema, req, next);
 }
 
-const validateReview = (req, res, next)=>{
+module.exports.validateReview = (req, res, next)=>{
     const reviewSchema = Joi.object({
         review: Joi.object({
             rating: Joi.number().min(1).max(5).required(),
@@ -26,8 +26,6 @@ const validateReview = (req, res, next)=>{
     checkError(reviewSchema, req, next);
    
 }
-module.exports = {validateCampground, validateReview};
-
 
 /*  */
 

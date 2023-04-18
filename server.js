@@ -11,7 +11,7 @@ const passport = require('./src/config/passportConfig');
 
 const ExpressError = require('./src/utils/ExpressError');
 const flashMsg = require('./src/middlewares/flash');
-const currentUser = require('./src/middlewares/currentUser');
+const {currentUser} = require('./src/middlewares/authMiddlewares');
 
 const app = express();
 
@@ -52,6 +52,8 @@ app.use(currentUser);
 
 app.use((req, res, next)=>{
     console.log(req.session);
+    // console.log(req.user);
+    // console.log(req.originalUrl);
     next();
 })
 
