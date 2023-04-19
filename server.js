@@ -51,7 +51,7 @@ app.use(flashMsg);
 app.use(currentUser);
 
 app.use((req, res, next)=>{
-    console.log(req.session);
+    // console.log(req.session);
     // console.log(req.user);
     // console.log(req.originalUrl);
     next();
