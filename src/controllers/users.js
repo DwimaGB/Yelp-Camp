@@ -28,10 +28,11 @@ module.exports.renderLogin = (req, res) => {
 }
 
 module.exports.login = (req, res) => {
-    const redirectUrl = req.session.returnTo || '/campgrounds';
-    delete req.session.returnTo;
+    const redirectUrl = req.session.redirectTo || '/campgrounds';
+    delete req.session.redirectTo;
     req.flash('success', 'Welcome back!')
     res.redirect(`${redirectUrl}`);
+
 }
 
 module.exports.logout = (req, res) => {
