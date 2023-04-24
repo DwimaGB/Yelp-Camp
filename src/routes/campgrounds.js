@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+const {storage} = require('../config/cloudinary');
+const upload = multer({storage});
 
 const { validateCampground } = require('../middlewares/validateSchema');
 const { isLoggedIn, isAuthor } = require('../middlewares/authMiddlewares');
