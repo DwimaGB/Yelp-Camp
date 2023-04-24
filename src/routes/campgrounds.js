@@ -11,11 +11,7 @@ const campgrounds = require('../controllers/campgrounds');
 
 router.route('/')
     .get(campgrounds.index)
-    // .post(isLoggedIn, validateCampground, campgrounds.createCampground)
-    .post(upload.array('image') , (req, res)=>{
-        console.log(req.body);
-        res.send(req.files);
-    })
+    .post(isLoggedIn, upload.array('image'), validateCampground, campgrounds.createCampground)
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
 
