@@ -8,10 +8,6 @@
     <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>" required>
 </section>
 
-<section class="mb-3">
-    <label class="form-label" for="image">Image</label>
-    <input class="form-control" type="file" id="image" name="image" multiple>
-</section>
 
 <section class="mb-3">
     <label for="price" class="form-label">Campground Price</label>
@@ -26,4 +22,10 @@
 <section class="mb-3">
     <label class="form-label" for="description">Description</label>
     <textarea class="form-control" id="description" name="campground[description]" required><%= campground.description %></textarea>
+</section>
+
+
+<section class="mb-3">
+    <label class="form-label" for="image">Image</label>
+    <input class="form-control" type="file" id="image" name="image" multiple>
 </section>

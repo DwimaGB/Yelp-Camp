@@ -1,6 +1,7 @@
 
 const handleAsync = require('../utils/handleAsync');
 const Campground = require('../models/campground');
+const {cloudinary} = require('../config/cloudinary');
 
 module.exports.index = handleAsync(async (req, res, next) => {
     const campgrounds = await Campground.find({});
@@ -20,7 +21,7 @@ module.exports.showCampground = handleAsync(async (req, res, next) => {
         req.flash('error', 'Cannot find that campground');
         return res.redirect('/campgrounds');
     }
-    
+
     res.render('campgrounds/show', { campground });
 
 })
@@ -50,9 +51,18 @@ module.exports.renderEditForm = handleAsync(async (req, res, next) => {
 module.exports.updateCampground = handleAsync(async (req, res, next) => {
     const {id} = req.params;
     const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
-    
+    campground.images.push(...req.files.map(f => ({url: f.path, filename: f.filename})));
+    campground.save();
+
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename);
+        }
+        await campground.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
+    }
+
     req.flash('success', 'Successfully updated campground');
-    res.redirect(`/campgrounds/${campground.id}`);
+    res.redirect(`/campgrounds/${id}`);
 
 })
 

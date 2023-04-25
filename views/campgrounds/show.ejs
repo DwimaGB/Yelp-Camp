@@ -2,15 +2,8 @@
 
 <div class="row">
     <div class="col-6">
-        <div id="CampgroundCarousel" class="carousel slide">
-            <div class="carousel-indicators">
-                <% if(campground.images.length > 1){ %>
-                    <% for(let i=0; i<campground.images.length; i++){ %>
-                        <button type="button" data-bs-target="#CampgroundCarousel" data-bs-slide-to="<%= i %>" class="<%= i===0? 'active' : ''%>" aria-current="true" aria-label="Slide <%= i %>"></button>
-                    <% } %>
-                <% } %>
-                
-            </div>
+        
+        <div id="CampgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <% campground.images.forEach((img, i)=>{ %>
                     <div class="carousel-item <%= i===0? 'active' : '' %>">
