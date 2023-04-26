@@ -9,7 +9,7 @@ const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
-const passport = require('./src/config/passportConfig');
+const passport = require('./src/config/passport');
 
 const ExpressError = require('./src/utils/ExpressError');
 const flashMsg = require('./src/middlewares/flash');

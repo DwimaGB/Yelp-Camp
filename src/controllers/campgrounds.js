@@ -31,7 +31,9 @@ module.exports.createCampground = handleAsync(async (req, res, next) => {
     const campground = new Campground(req.body.campground);
     campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     campground.author = req.user.id;
+
     await campground.save();
+
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground.id}`);
 
@@ -50,9 +52,13 @@ module.exports.renderEditForm = handleAsync(async (req, res, next) => {
 
 module.exports.updateCampground = handleAsync(async (req, res, next) => {
     const {id} = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+    const campgroundData = {...req.body.campground};
+    const campground = await Campground.findById(id);
+
+    for(let data in campgroundData){
+        campground[data] = campgroundData[data];
+    }
     campground.images.push(...req.files.map(f => ({url: f.path, filename: f.filename})));
-    campground.save();
 
     if(req.body.deleteImages){
         for(let filename of req.body.deleteImages){
@@ -60,6 +66,8 @@ module.exports.updateCampground = handleAsync(async (req, res, next) => {
         }
         await campground.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
     }
+
+    await campground.save();
 
     req.flash('success', 'Successfully updated campground');
     res.redirect(`/campgrounds/${id}`);
