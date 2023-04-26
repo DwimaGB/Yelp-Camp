@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/styles/star-basic.css">
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 mb-4">
         <div id='map' style='width: 400px; height: 300px;'></div>
         <div id="CampgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -109,6 +109,8 @@
     </div>
 </div>
 <script>
-    const mapboxToken = '<%= process.env.MAPBOX_TOKEN %>';
+    const mapboxToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const campground = <%- JSON.stringify(campground) %>;
 </script>
+
 <script src="/scripts/showMap.js"></script>
