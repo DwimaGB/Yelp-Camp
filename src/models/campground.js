@@ -46,7 +46,12 @@ const CampgroundSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Review',
     }]
+}, {toJSON: {virtuals: true}});
+
+CampgroundSchema.virtual('properties.popUp').get(function(){
+    return `<strong><a href=/campgrounds/${this.id}>${this.title}</a></strong>`
 });
+
 
 CampgroundSchema.pre('save', async function(next){
    

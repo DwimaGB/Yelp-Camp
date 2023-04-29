@@ -28,10 +28,8 @@ module.exports.renderLogin = (req, res) => {
 }
 
 module.exports.login = (req, res) => {
-    const redirectUrl = req.session.redirectTo || '/campgrounds';
-    delete req.session.redirectTo;
     req.flash('success', 'Welcome back!')
-    res.redirect(`${redirectUrl}`);
+    res.redirect('/campgrounds');
 
 }
 

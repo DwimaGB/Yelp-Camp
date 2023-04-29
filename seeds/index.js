@@ -32,6 +32,10 @@ const seedDB = async()=>{
                         filename: '',
                     }
                 ],
+                geometry: {
+                    type: "Point",
+                    coordinate: [randomCity.longitude, randomCity.latitude]
+                }
             })
 
             await camp.save();

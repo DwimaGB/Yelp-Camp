@@ -9,7 +9,6 @@ module.exports.currentUser = (req, res, next)=>{
 
 module.exports.isLoggedIn = (req, res, next)=>{
     if(!req.isAuthenticated()){
-        req.session.redirectTo = req.originalUrl; // after login return the user to the exact url
         req.flash('error', 'You must be signed in first');
         return res.redirect('/login')
     }
