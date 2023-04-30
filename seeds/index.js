@@ -19,7 +19,7 @@ const seedDB = async()=>{
         for(let i=0; i<images.data.length; i++){
             randomCity = cities[randomIntNum(0, 1000)];
             const camp = new Campground({
-                author: "6446a2e4a5bbf8d1f37b1756",
+                author: "644eb3b31868c7c97c7fe228",
                 location: `${randomCity.city}, ${randomCity.state}`,
                 title: `${sample(descriptors)}, ${sample(places)}`,
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem ducimus dolores minus tempora.",
