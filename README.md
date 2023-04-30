@@ -1,5 +1,6 @@
 # Yelp-Camp
 
-Project by Colt Steele
+Explore Campgrounds and share campgrounds.
+Fnal project of Web development bootcamp by Colt Steele.
 
-## On development
+https://yelpcamp-5kbq.onrender.com
