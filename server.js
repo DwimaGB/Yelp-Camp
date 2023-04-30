@@ -59,6 +59,7 @@ app.use((req, res, next)=>{
     next();
 })
 
+app.use('/', require('./src/routes/index'));
 app.use('/', require('./src/routes/users'));
 app.use('/campgrounds', require('./src/routes/campgrounds'));
 app.use('/campgrounds/:id/reviews', require('./src/routes/reviews'));
