@@ -38,3 +38,13 @@ body{
     color: #333 !important;
     text-shadow: none;
 }
+
+@media screen and (max-width: 768px){
+    .cover-container{
+        max-width: 95vw;
+    }
+    .nav{
+        margin-top: 1rem;
+        gap: 1.125rem;
+    }
+}
