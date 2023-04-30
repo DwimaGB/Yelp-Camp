@@ -7,8 +7,6 @@ const cities = require('./cities');
 const {places, descriptors} = require('./seedHelpers');
 
 mongoose.connect(process.env.DATABASE_URL);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error: '));
 
 const seedDB = async()=>{
     let randomCity;
