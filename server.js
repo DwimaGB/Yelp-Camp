@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const passport = require('./src/config/passport');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo'); 
 
 const ExpressError = require('./src/utils/ExpressError');
 const flashMsg = require('./src/middlewares/flash');
@@ -20,6 +21,7 @@ const {currentUser} = require('./src/middlewares/authMiddlewares');
 const app = express();
 
 mongoose.connect(process.env.DATABASE_URL);
+const db = mongoose.connection;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -88,7 +90,8 @@ const sessionConfig = {
         httpOnly: true,
         expires: Date.now() + 1000*60*60*24,
         maxAge: 1000*60*60*24
-    }
+    },
+    store: MongoStore.create({mongoUrl: process.env.DATABASE_URL, collectionName: 'sessions'})
 }
 
 app.use(session(sessionConfig));

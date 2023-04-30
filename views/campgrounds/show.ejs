@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="/styles/star-basic.css">
 
 <div class="row">
-    <div class="col-6 mb-4">
+    <div class="col-md-6 mb-4">
+        
         <div id="CampgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <% campground.images.forEach((img, i)=>{ %>
@@ -53,10 +54,11 @@
         </div>
 
     </div>
-    <div class="col-6">
+    
+    <div class="col-md-6">
         <div id='map'></div>
         <% if(currentUser){ %>
-            <h2>Leave a Review</h2>
+            <h2 class="mt-5 mt-md-0">Leave a Review</h2>
             <form action="/campgrounds/<%= campground.id %>/reviews" method="POST" class="mb-5 needs-validation"
                 novalidate>
                 <section class="mb-3">
@@ -75,7 +77,7 @@
                         <label for="first-rate5" title="Amazing">5 stars</label>
                     </fieldset>
                 </section>
-                <section class="mb-3">
+                <section class="mb-2">
                     <label for="body" class="form-label">Review</label>
                     <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
                 </section>
