@@ -1,10 +1,25 @@
-<h1>Register</h1>
 
-<form action="/register" method="POST" class="needs-validation" novalidate>
-    <section class="mb-3">
-        <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="email" name="email" id="email" required>
-    </section>
-    <%- include('_form_fields') %>
-    <button class="btn btn-success">Register</button>
-</form>
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <div class="card shadow">
+                <img src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Register</h5>
+                    <form action="/register" method="POST" class="needs-validation" novalidate>
+                        <section class="mb-3">
+                            <label class="form-label" for="email">Email</label>
+                            <input class="form-control" type="email" name="email" id="email" required>
+                        </section>
+                        <%- include('_form_fields') %>
+                        <div class="d-grid">
+                            <button class="btn btn-success">Register</button>
+                        </div>
+                        
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
