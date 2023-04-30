@@ -1,5 +1,5 @@
 # Yelp-Camp
 
-Project by Colt Steele
+Final project of Web development bootcamp by Colt Steele.
 
-## On development
+https://yelpcamp-5kbq.onrender.com
